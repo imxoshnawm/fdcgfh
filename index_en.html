@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Water Level Monitoring Project</title>
+    <style>
+        /* Import Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap');
+
+/* CSS Reset */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+}
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+    display: block;
+}
+ol, ul {
+    list-style: none;
+}
+blockquote, q {
+    quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+    content: '';
+}
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+/* Root Variables */
+:root {
+    --primary-color: #3498db;
+    --secondary-color: #2980b9;
+    --accent-color: #3498db;
+    --light-color: #ecf0f1;
+    --dark-color: #2c3e50;
+    --text-color: #333;
+    --background-color: #f9f9f9;
+}
+
+/* Global Styles */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Noto Sans', sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--background-color);
+    direction: ltr;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+    padding: 20px;
+}
+
+/* Container */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+/* Header - Updated with background image */
+header {
+    background: linear-gradient(rgba(1, 2, 3, 0.5), rgba(1, 2, 3, 0.5)), url('IMG_20250309_232800.jpg') center/cover no-repeat;
+    color: white;
+    text-align: center;
+    padding: 2rem 0;
+}
+
+/* Hero Section */
+.hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+.hero h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+.hero p {
+    font-size: 1.2rem;
+    max-width: 800px;
+}
+
+/* Features Section */
+.features {
+    background-color: white;
+    padding: 3rem 0;
+}
+.features h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: var(--secondary-color);
+}
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+}
+.feature-card {
+    background-color: var(--light-color);
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+}
+.feature-card:hover {
+    transform: translateY(-5px);
+}
+.feature-card h3 {
+    color: var(--secondary-color);
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+}
+
+/* Section */
+.section {
+    padding: 3rem 0;
+}
+.section-title {
+    text-align: center;
+    margin-bottom: 2.5rem;
+    color: var(--dark-color);
+}
+.two-column {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    align-items: center;
+}
+.column {
+    flex: 1;
+    min-width: 300px;
+}
+.column img {
+    max-width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+/* Steps List */
+.steps {
+    counter-reset: step-counter;
+    list-style: none;
+    margin: 2rem 0;
+}
+.step-item {
+    margin-bottom: 1.5rem;
+    position: relative;
+    padding-left: 3rem;
+}
+.step-item:before {
+    content: counter(step-counter);
+    counter-increment: step-counter;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background-color: var(--primary-color);
+    color: white;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+/* Connection Table */
+.connection-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 2rem 0;
+}
+.connection-table th, .connection-table td {
+    border: 1px solid #ddd;
+    padding: 0.8rem;
+    text-align: left;
+}
+.connection-table th {
+    background-color: var(--primary-color);
+    color: white;
+}
+.connection-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+/* Video Container */
+.video-container {
+    position: relative;
+    overflow: hidden;
+    padding-top: 56.25%; /* 16:9 Aspect Ratio */
+    margin: 2rem 0;
+    border-radius: 8px;
+}
+
+/* Diagram */
+.diagram {
+    margin: 2rem 0;
+    text-align: center;
+}
+.diagram img {
+    max-width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+/* Call To Action */
+.cta {
+    background: var(--accent-color);
+    text-align: center;
+    padding: 4rem 0;
+    color: white;
+}
+.cta h2 {
+    margin-bottom: 1rem;
+}
+.cta p {
+    margin-bottom: 1rem;
+}
+.cta-button {
+    display: inline-block;
+    background-color: white;
+    color: var(--accent-color);
+    padding: 0.8rem 2rem;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: bold;
+    margin-top: 1rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.cta-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+/* Footer */
+footer {
+    background-color: var(--dark-color);
+    color: white;
+    padding: 2rem 0;
+    text-align: center;
+}
+
+/* Code Container and Syntax Highlighting */
+.code-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    direction: ltr;
+    text-align: left;
+}
+.code-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background-color: #2c3e50;
+    color: white;
+}
+.code-title {
+    font-size: 18px;
+    font-weight: bold;
+}
+.copy-btn {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+.copy-btn:hover {
+    background-color: #2980b9;
+}
+.code-content {
+    padding: 20px;
+    overflow-x: auto;
+    background-color: #282c34;
+    color: #abb2bf;
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    line-height: 1.5;
+    margin: 0;
+}
+.line {
+    display: block;
+    white-space: pre;
+}
+.keyword {
+    color: #c678dd;
+}
+.comment {
+    color: #98c379;
+}
+.string {
+    color: #e5c07b;
+}
+.variable {
+    color: #61afef;
+}
+.number {
+    color: #d19a66;
+}
+.operator {
+    color: #56b6c2;
+}
+.function {
+    color: #98c379;
+}
+
+/* Developer Profile Section */
+.developer-section {
+    padding: 3rem 0;
+    background-color: white;
+    text-align: center;
+}
+.profile-card {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    background-color: white;
+}
+.profile-image {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: 0 auto 1rem;
+    border: 3px solid var(--primary-color);
+}
+.profile-name {
+    color: var(--dark-color);
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+.profile-title {
+    color: var(--primary-color);
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+}
+.profile-contact {
+    color: #666;
+    margin-bottom: 1rem;
+}
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+/* Mobile Responsive Adjustments */
+@media (max-width: 768px) {
+    body {
+        font-size: 14px;
+        padding: 10px;
+    }
+    .hero h1 {
+        font-size: 2rem;
+    }
+    .hero p {
+        font-size: 1rem;
+    }
+    .feature-grid {
+        grid-template-columns: 1fr;
+    }
+    .two-column {
+        flex-direction: column;
+    }
+}
+
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container hero">
+            <h1>Water Level Monitoring Project</h1>
+            <p>A simple and effective solution for monitoring water levels in tanks for homes in Kurdistan</p>
+        </div>
+    </header>
+    
+    <section class="features">
+        <div class="container">
+            <h2>Why is this project important?</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h3>Solves Water Problems</h3>
+                    <p>In Kurdistan, we often have water issues. Many times water tanks empty without us knowing, or in most homes, a lot of water is wasted.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Audio Alerts</h3>
+                    <p>When the water level is less than 15% or more than 80%, the project emits a sound to alert you.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Water Level Display</h3>
+                    <p>The screen shows the water percentage and a line indicating how full it is, allowing you to see the water level directly.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Easy Installation</h3>
+                    <p>With a few simple steps, you can install the project and it begins working immediately.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Benefits in Kurdistan</h2>
+            <div class="two-column">
+                <div class="column">
+                    <img src="IMG_20250309_232817.jpg" alt="Water tank monitoring system benefits">
+                </div>
+                <div class="column">
+                    <ul class="steps">
+                        <li class="step-item"><span class="highlight">For Homes</span>: No longer need to go to the roof to check water</li>
+                        <li class="step-item"><span class="highlight">For Agriculture</span>: Know when water for irrigation is running out</li>
+                        <li class="step-item"><span class="highlight">In Summer Season</span>: Helps you avoid wasting water</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="section" style="background-color: white;">
+        <div class="container">
+            <h2 class="section-title">How Does It Work?</h2>
+            <div class="two-column">
+                <div class="column">
+                    <ol class="steps">
+                        <li class="step-item">The ultrasonic sensor measures the distance to the water surface</li>
+                        <li class="step-item">If water is less than 15% or more than 80%, an alarm sounds</li>
+                        <li class="step-item">The screen displays the water percentage and a line showing how full it is</li>
+                        <li class="step-item">The water level is continuously updated on the screen</li>
+                    </ol>
+                </div>
+                <div class="column">
+                    <img src="IMG_20250309_232846.jpg" alt="How water level monitoring system works">
+                </div>
+            </div>
+            
+            <div class="diagram">
+                <h3>Project Diagram</h3>
+                <img src="Magnificent Jarv.png" alt="Water level monitoring system diagram">
+            </div>
+        </div>
+    </section>
+    
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Components and Connection Method</h2>
+            <h3>Components:</h3>
+            <ul class="steps">
+                <li class="step-item">Arduino (Uno or Nano)</li>
+                <li class="step-item">LCD Screen 16x2 (I2C type)</li>
+                <li class="step-item">Ultrasonic sensor HC-SR04</li>
+                <li class="step-item">Buzzer</li>
+                <li class="step-item">Jumper wires (male to female type)</li>
+                <li class="step-item">Breadboard</li>
+            </ul>
+            
+            <h3>Connection Method:</h3>
+            <table class="connection-table">
+                <thead>
+                    <tr>
+                        <th>Component</th>
+                        <th>Pin</th>
+                        <th>Connection to Arduino</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td rowspan="4">LCD Screen (I2C)</td>
+                        <td>VCC</td>
+                        <td>5V</td>
+                    </tr>
+                    <tr>
+                        <td>GND</td>
+                        <td>GND</td>
+                    </tr>
+                    <tr>
+                        <td>SDA</td>
+                        <td>A4</td>
+                    </tr>
+                    <tr>
+                        <td>SCL</td>
+                        <td>A5</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="4">Ultrasonic sensor HC-SR04</td>
+                        <td>VCC</td>
+                        <td>5V</td>
+                    </tr>
+                    <tr>
+                        <td>GND</td>
+                        <td>GND</td>
+                    </tr>
+                    <tr>
+                        <td>TRIG</td>
+                        <td>Pin 9</td>
+                    </tr>
+                    <tr>
+                        <td>ECHO</td>
+                        <td>Pin 10</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="2">Buzzer</td>
+                        <td>Pin (+)</td>
+                        <td>Pin 8</td>
+                    </tr>
+                    <tr>
+                        <td>Pin (-)</td>
+                        <td>GND</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            </div>
+        </div>
+    </section>
+    
+    <section class="section" style="background-color: white;">
+        <div class="container">
+            <h2 class="section-title">How It Works Video</h2>
+                <video controls style="width: 40%; max-width: 800px; border-radius: 20px;">
+                    <source src="0310 (1).mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+           
+        </div>
+    </section>
+    <section class="cta">
+        <div class="container">
+           
+            <div class="code-container">
+                <div class="code-header">
+                    <span class="code-title">Arduino Code</span>
+                    <button id="copyButton" class="copy-btn">Copy Code</button>
+                </div>
+                <pre class="code-content" id="codeContent">
+#include <Wire.h>
+#include <LiquidCrystal_I2C.h>
+                            
+#define TRIG_PIN 9
+#define ECHO_PIN 10
+#define BUZZER_PIN 8
+                            
+LiquidCrystal_I2C lcd(0x27, 16, 2);
+                 
+const float TANK_DEPTH = 80.0; 
+const float MIN_ALERT_LEVEL = 15.0; 
+const float MAX_ALERT_LEVEL = 80.0; 
+                            
+float waterLevel = 0.0;
+float waterPercentage = 0.0;
+unsigned long lastBuzzerPatternTime = 0;
+int alarmPattern = 0;  
+                            
+void setup() {
+    Serial.begin(9600);
+                   
+    lcd.init();
+    lcd.backlight();
+                              
+    pinMode(TRIG_PIN, OUTPUT);
+    pinMode(ECHO_PIN, INPUT);
+    pinMode(BUZZER_PIN, OUTPUT);
+                              
+    lcd.setCursor(0, 0);
+    lcd.print("Water Level");
+    lcd.setCursor(0, 1);
+    lcd.print("Monitoring System");
+    delay(2000);
+    lcd.clear();
+}
+                            
+void loop() {
+    float distance = measureDistance();
+                              
+    waterLevel = TANK_DEPTH - distance;
+                              
+    if (waterLevel < 0) {
+        waterLevel = 0;
+    }
+                              
+    waterPercentage = (waterLevel / TANK_DEPTH) * 100.0;
+                              
+    updateLCD();
+                              
+    manageLoudAlarm();
+                              
+    Serial.print("Distance: ");
+    Serial.print(distance);
+    Serial.print(" cm, Water Level: ");
+    Serial.print(waterLevel);
+    Serial.print(" cm (");
+    Serial.print(waterPercentage);
+    Serial.println("%)");
+                              
+    delay(50);
+}
+                            
+float measureDistance() {
+    digitalWrite(TRIG_PIN, LOW);
+    delayMicroseconds(2);
+                              
+    digitalWrite(TRIG_PIN, HIGH);
+    delayMicroseconds(10);
+    digitalWrite(TRIG_PIN, LOW);
+                              
+    long duration = pulseIn(ECHO_PIN, HIGH);
+                              
+    float distance = duration * 0.034 / 2;
+                              
+    if (distance > TANK_DEPTH) {
+        distance = TANK_DEPTH;
+    }
+                              
+    return distance;
+}
+                            
+void updateLCD() {
+    static unsigned long lastLCDUpdate = 0;
+    if (millis() - lastLCDUpdate < 500) {
+        return;
+    }
+    lastLCDUpdate = millis();
+                              
+    lcd.clear();
+                              
+    lcd.setCursor(0, 0);
+    lcd.print("Water Level: ");
+    lcd.print((int)waterPercentage);
+    lcd.print("%");
+                              
+    lcd.setCursor(0, 1);
+    lcd.print("[");
+                              
+    int bars = map((int)waterPercentage, 0, 100, 0, 14);
+                              
+    for (int i = 0; i < 14; i++) {
+        if (i < bars) {
+            lcd.print("=");
+        } 
+        else {
+            lcd.print(" ");
+        }
+    }
+                              
+    lcd.print("]");
+                              
+    if (waterPercentage <= MIN_ALERT_LEVEL || waterPercentage >= MAX_ALERT_LEVEL) {
+        lcd.setCursor(15, 0);
+        lcd.print((millis() / 250) % 2 ? "!" : "*"); 
+    }
+}
+                            
+void manageLoudAlarm() {
+    bool isAlertCondition = (waterPercentage <= MIN_ALERT_LEVEL || waterPercentage >= MAX_ALERT_LEVEL);
+                              
+    if (isAlertCondition) {
+        unsigned long currentTime = millis();
+                                
+        if (currentTime - lastBuzzerPatternTime >= 100) {
+            lastBuzzerPatternTime = currentTime;
+            alarmPattern++;
+                                  
+            switch (alarmPattern % 16) {
+                case 0:
+                case 1:
+                case 2:
+                    tone(BUZZER_PIN, 2000, 50);
+                    break;
+                case 3:
+                case 4:
+                    noTone(BUZZER_PIN);
+                    break;
+                case 5:
+                case 6:
+                case 7:
+                    tone(BUZZER_PIN, 1500, 50);
+                    break;
+                case 8:
+                    noTone(BUZZER_PIN);
+                    break;
+                case 9:
+                case 10:
+                case 11:
+                    tone(BUZZER_PIN, 1000, 50);
+                    break;
+                case 12:
+                    noTone(BUZZER_PIN);
+                    break;
+                case 13:
+                case 14:
+                    tone(BUZZER_PIN, 2500, 50);
+                    break;
+                case 15:
+                    for (int i = 1000; i < 3000; i += 100) {
+                        tone(BUZZER_PIN, i, 15);
+                        delay(10);
+                    }
+                    break;
+            }
+        }
+    } 
+    else {
+        noTone(BUZZER_PIN);
+    }
+}
+                </pre>
+            </div>
+        </div>
+    </section>
+    
+    <!-- New section for developer profile -->
+    <section class="developer-section">
+        <div class="container">
+            <h2 class="section-title">Project Developer</h2>
+            <div class="profile-card">
+                <img src="photo_2025-03-10_02-19-38.jpg" alt="Developer profile" class="profile-image">
+                <h3 class="profile-name">Ibrahim Hussein</h3>
+                <p class="profile-contact">hamasuan@gmail.com</p>
+                <div class="social-links">
+                    <a href="https://imxoshnawm.github.io/ibrahim_Portfolio/" class="cta-button" target="_blank">View Portfolio</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+          
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    const copyButton = document.getElementById('copyButton');
+                    const codeContent = document.getElementById('codeContent');
+                    
+                    copyButton.addEventListener('click', function() {
+                        // Get the text content
+                        const codeText = codeContent.textContent || codeContent.innerText;
+                        
+                        navigator.clipboard.writeText(codeText.trim())
+                            .then(() => {
+                                const originalText = copyButton.textContent;
+                                copyButton.textContent = 'Copied!';
+                                
+                                setTimeout(() => {
+                                    copyButton.textContent = originalText;
+                                }, 2000);
+                            })
+                            .catch(err => {
+                                console.error('Failed to copy code:', err);
+                                alert('There was a problem copying the code');
+                            });
+                    });
+                });
+            </script>
+        </div>
+    </section>
+
+    
+</body>
+</html>
